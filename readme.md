@@ -38,21 +38,79 @@
   * [debugbar](https://github.com/barryvdh/laravel-debugbar) - awesome debugbar for our API
   * [ide-helper](https://github.com/barryvdh/laravel-ide-helper) - Helper files to enable help with IDE autocompletion
 
-### Installation
+## Installation
 
-* clone from GitHub
-* run `yarn` and `composer install` to install all of your deps
-* copy `.env.example` to `.env` and configure it to your likings
-* TL;DR
- ```bash
-git clone git@github.com:Rimsys/laranuxt.git; cd laranuxt; yarn; composer install; cp .env.example .env;
- ```
-* Feel free to delete excess media in  `/client/static/`, just images for the readme
+### Server Installation
+
+Please skip the next 2 steps if you have php8.0 installed.
+#### PHP 8.0 Installation (Ubuntu)
+```zsh
+$ sudo apt install php8.0-{simplexml,mbstring,common,redis,mysql,pdo-mysql,cli,fpm,intl,opcache,curl,zip} -y
+# This command installs the required php version and extensions to run the application
+```
+#### Setting PHP 8.0 as default (Optional)
+```zsh
+$ sudo update-alternatives --config php
+# You will be asked to select the version to use, type the number (Selection) that matches PHP8.0
+# from the below example, it's 0 then press enter
+There are 4 choices for the alternative php (providing /usr/bin/php).
+
+  Selection    Path             Priority   Status
+------------------------------------------------------------
+* 0            /usr/bin/php8.0   80        auto mode
+  1            /usr/bin/php7.0   70        manual mode
+  2            /usr/bin/php7.1   71        manual mode
+  3            /usr/bin/php7.4   74        manual mode
+  4            /usr/bin/php8.1   81        manual mode
+
+Press <enter> to keep the current choice[*], or type selection number:
+
+# Your default php version would have been changed successfully. 
+```
+
+#### Confirm PHP Version
+```zsh
+$ php -v
+PHP 8.0.16 (cli) (built: Feb 21 2022 14:48:42) (NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.0.16, Copyright (c) Zend Technologies
+    with Zend OPcache v8.0.16, Copyright (c), by Zend Technologies
+# If response doesn't include php 8.0*, refer to the previous/above instructions. 
+```
+#### Copy Environment Variable and Configure
+```zsh
+$ cp .env.example .env # Make sure to open and configure the .env file
+```
+#### Generate Application Key
+```zsh
+$ php artisan key:generate
+```
+#### Database Installation (Migration & Seeding)
+```zsh
+$ php artisan migrate --seed --step
+```
+<h4 id="lauch-serve-api">Launch/Serve api</h4>
+```zsh
+$ php artisan serve
+Starting Laravel development server: http://127.0.0.1:8000
+```
+Open the above url in browser or better still, make use of [Laravel Valet](https://laravel.com/docs/9.x/valet)
 
 
-### Local Environment
-* run `yarn dev` in one terminal for our nuxt dev setup
-* run `yarn api` (alias for `./artisan serve`) in another terminal for our laravel API
+### Client Dependency Installation
+Make sure to have installed node.
+#### Install Dependency
+```zsh
+$ yarn install
+```
+
+#### Launch Application
+```zsh
+$ yarn run dev
+```
+This will run the application at the provided WEB_URL value in the `.env` file. Open it in the browser to view Application.
+
+<em>Note that you must be running the server application at the API_URL value in `.env` file. Refer to [Launch/Serve API](#lauch-serve-api)</em>
 
 ### Features
 
