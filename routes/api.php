@@ -11,3 +11,5 @@ Route::get('/error', [Controller::class, 'error'])->name('error route');
 
 Route::get('/profile', \App\Http\Controllers\Profile\GetController::class)
     ->name('profile');
+Route::patch('/profile', \App\Http\Controllers\Profile\UpdateController::class)
+    ->name('profile.update');

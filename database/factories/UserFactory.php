@@ -20,6 +20,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'bio' => $this->faker->text(256),
             'social_linkedin' => $url,
             'social_facebook' => $url,
             'social_twitter' => $url,
