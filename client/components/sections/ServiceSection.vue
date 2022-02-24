@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Service from '@/components/Service'
+import Service from '@/components/Service.vue'
 
 export default Vue.extend({
   name: 'ServiceSection',

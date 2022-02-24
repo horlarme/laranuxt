@@ -21,7 +21,9 @@ export default Vue.extend({
   name: 'SkillSection',
   components: { Skill, AddButton },
   data () {
-    return { skills: [] }
+    const skills: number[] = []
+
+    return { skills }
   },
   methods: {
     addNewSkill () {
