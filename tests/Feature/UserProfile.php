@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use acidjazz\metapi\MetApi;
 use App\Models\User;
 use Tests\TestCase;
 
 class UserProfile extends TestCase
 {
-    use MetApi;
-
     public function testUsersAreNotMoreThanOne()
     {
         $this->assertDatabaseCount('users', 1);
@@ -18,7 +15,16 @@ class UserProfile extends TestCase
     public function testFetchProfile()
     {
         $this->getJson(route('profile'))
-            ->assertStatus(200);
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    'data' => [
+                        'services',
+                        'skills',
+                        'experiences'
+                    ]
+                ]
+            ]);
     }
 
     public function testUpdateProfile()
@@ -27,6 +33,14 @@ class UserProfile extends TestCase
 
         $this->patchJson(route('profile.update'), $profile->toArray())
             ->assertStatus(200)
-            ->assertJsonStructure($this->success($profile));
+            ->assertJsonStructure([
+                'data' => [
+                    'data' => [
+                        'services',
+                        'skills',
+                        'experiences'
+                    ]
+                ]
+            ]);
     }
 }
