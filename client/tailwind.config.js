@@ -7,8 +7,10 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  mode: 'jit',
   variants: {
     extend: {
+      borderWidth: ['first'],
     },
   },
   plugins: [
@@ -16,8 +18,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        black: '#212121',
+        white: '#f8f8f8',
       },
       fontFamily: {
+        rubik: 'Rubik',
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
     },

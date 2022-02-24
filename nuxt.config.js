@@ -22,7 +22,13 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
     ],
     link: [
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+      { href: 'https://fonts.googleapis.com/css2?family=Rubik&display=swap', rel: 'stylesheet' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    ],
+    script: [
+      { type: 'module', src: 'https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js' },
+      { type: 'noModule', src: 'https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js' },
     ],
   },
   /*
@@ -35,6 +41,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    '~/plugins/vue-custom-elements',
   ],
   /*
   ** Auto import components
@@ -42,7 +49,6 @@ export default {
   */
   components: [
     '@/components',
-    '@/components/cards',
   ],
   /*
   ** Nuxt.js dev-modules

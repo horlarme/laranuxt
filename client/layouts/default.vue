@@ -1,11 +1,12 @@
 <template>
-  <div class="flex items-center justify-center">
+  <div class="bg-white">
     <Nuxt />
   </div>
 </template>
 
 <style>
 html,body {
-  @apply bg-gray-100
+  @apply bg-white font-rubik text-black;
+  scroll-behavior: smooth;
 }
 </style>
