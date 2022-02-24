@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use Tests\TestCase;
 
-class UserProfile extends TestCase
+class UserProfileTest extends TestCase
 {
     public function testUsersAreNotMoreThanOne()
     {
