@@ -19,8 +19,8 @@ class LawalProfileSeeder extends Seeder
             'password' => bcrypt('anything_works'),
             'social_facebook' => 'https://facebook.com/blessedhorlar',
             'social_github' => 'https://github.com/horlarme',
-            'social_instagram' => 'https://instagram.com/i_am_meetweb',
-            'social_twitter' => 'https://twitter.com/@first_lawal',
+            'social_instagram' => 'https://instagram.com/firstlawal',
+            'social_twitter' => 'https://twitter.com/firstLawal',
             'social_linkedin' => 'https://www.linkedin/in/lawal-oladipupo-ba9525b0/'
         ]);
 
