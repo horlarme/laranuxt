@@ -24,3 +24,25 @@ Route::delete('experiences/{experience}', \App\Http\Controllers\Experience\Delet
     ->name('experiences.delete');
 Route::patch('experiences/{experience}', \App\Http\Controllers\Experience\UpdateController::class)
     ->name('experiences.update');
+
+Route::post('services', \App\Http\Controllers\Services\CreateController::class)
+    ->name('services.create');
+Route::get('services', \App\Http\Controllers\Services\ListController::class)
+    ->name('services');
+Route::get('services/{service}', \App\Http\Controllers\Services\GetController::class)
+    ->name('services.get');
+Route::delete('services/{service}', \App\Http\Controllers\Services\DeleteController::class)
+    ->name('services.delete');
+Route::patch('services/{service}', \App\Http\Controllers\Services\UpdateController::class)
+    ->name('services.update');
+
+Route::post('skills', \App\Http\Controllers\Skills\CreateController::class)
+    ->name('skills.create');
+Route::get('skills', \App\Http\Controllers\Skills\ListController::class)
+    ->name('skills');
+Route::get('skills/{skill}', \App\Http\Controllers\Skills\GetController::class)
+    ->name('skills.get');
+Route::delete('skills/{skill}', \App\Http\Controllers\Skills\DeleteController::class)
+    ->name('skills.delete');
+Route::patch('skills/{skill}', \App\Http\Controllers\Skills\UpdateController::class)
+    ->name('skills.update');

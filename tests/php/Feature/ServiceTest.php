@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Http\Resources\ServiceResource;
 use App\Models\Service;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -19,11 +18,13 @@ class ServiceTest extends TestCase
     public function testUpdateService()
     {
         $service = Service::query()->first();
-        $this->patchJson(route('services.update'), $service->toArray())
+        $this->patchJson(route('services.update', $service['id']), $service->toArray())
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
                 'data' => [
-                    'data'
+                    'data' => [
+                        'title', 'description'
+                    ]
                 ]
             ]);
     }
@@ -46,7 +47,7 @@ class ServiceTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
                 'data' => [
-                    'data' => (array)new ServiceResource($service)
+                    'data' => ['title', 'description']
                 ]
             ]);
     }
@@ -54,7 +55,7 @@ class ServiceTest extends TestCase
     public function testDeleteService()
     {
         $service = Service::factory()->create();
-        $this->deleteJson(route('services.delete'), $service['id'])
+        $this->deleteJson(route('services.delete', $service['id']))
             ->assertStatus(Response::HTTP_NO_CONTENT);
 
         $this->assertDeleted($service);

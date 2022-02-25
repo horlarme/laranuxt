@@ -11,8 +11,8 @@ class SkillTest extends TestCase
     public function testDeleteSkill()
     {
         $skill = Skill::factory()->create();
-        $this->delete(route('skill.delete', $skill['id']))
-            ->assertStatus(200);
+        $this->deleteJson(route('skills.delete', $skill['id']))
+            ->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDeleted($skill);
     }
 
@@ -26,7 +26,7 @@ class SkillTest extends TestCase
     public function testUpdateSkill()
     {
         $skill = Skill::factory()->create();
-        $this->patchJson(route('skills.update'), $skill->toArray())
+        $this->patchJson(route('skills.update', $skill['id']), $skill->toArray())
             ->assertJsonStructure([
                 'data' => [
                     'data' => [
@@ -38,14 +38,11 @@ class SkillTest extends TestCase
 
     public function testFetchSkills()
     {
-        $this->get(route('skills'))
+        $this->getJson(route('skills'))
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    'data' => [
-                        'title',
-                        'created_at'
-                    ]
+                    'data'
                 ]
             ]);
     }
@@ -54,7 +51,7 @@ class SkillTest extends TestCase
     {
         $skill = Skill::factory()->create();
 
-        $this->get(route('skills.get', $skill['id']))
+        $this->getJson(route('skills.get', $skill['id']))
             ->assertStatus(Response::HTTP_OK);
     }
 
