@@ -14,8 +14,8 @@ class ExperienceFactory extends Factory
         return [
             'company' => $this->faker->company(),
             'position' => $this->faker->jobTitle(),
-            'started_at' => $this->faker->dateTimeBetween('-5years', '1month'),
-            'stopped_at' => $this->faker->optional()->dateTimeBetween('-4years', '1month'),
+            'started_at' => $this->faker->dateTimeBetween('-5years', '-1month'),
+            'stopped_at' => $this->faker->optional()->dateTimeBetween('-4years', '-1month'),
             'description' => $this->faker->paragraphs(2, true),
         ];
     }
