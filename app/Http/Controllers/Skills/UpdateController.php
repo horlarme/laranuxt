@@ -13,6 +13,7 @@ class UpdateController extends Controller
     public function __invoke(Skill $skill, UpdateRequest $request): JsonResponse
     {
         $skill->update($request->validated());
+        
         return $this->success(data: new SkillResource($skill));
     }
 }
