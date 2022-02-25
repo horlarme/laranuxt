@@ -2,18 +2,22 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Experience;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class ExperienceResource
+ * @package App\Http\Resources
+ *
+ * @mixin Experience
+ */
 class ExperienceResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
-    public function toArray($request)
+    public function toArray($request): array
     {
-        return parent::toArray($request);
+        return $this->only([
+            'company', 'id', 'position', 'started_at', 'created_at',
+            'stopped_at', 'updated_at', 'description'
+        ]);
     }
 }

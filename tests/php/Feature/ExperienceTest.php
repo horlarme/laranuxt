@@ -10,7 +10,7 @@ class ExperienceTest extends TestCase
 {
     public function testListExperiences()
     {
-        $this->getJson(route('experience'))
+        $this->getJson(route('experiences'))
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
                 'data' => [
@@ -21,19 +21,19 @@ class ExperienceTest extends TestCase
 
     public function testDeleteExperience()
     {
-        $service = Experience::factory()->create();
-        $this->deleteJson(route('experience.delete'), $service['id'])
+        $experience = Experience::factory()->create();
+        $this->deleteJson(route('experiences.delete', $experience['id']))
             ->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $this->assertDeleted($service);
+        $this->assertDeleted($experience);
     }
 
     public function testGetSingleExperience()
     {
-        $service = Experience::factory()->create();
-        $this->getJson(route('experience.get', $service['id']))
+        $experience = Experience::factory()->create();
+        $this->getJson(route('experiences.get', $experience['id']))
             ->assertStatus(Response::HTTP_OK)
-            ->assertSeeText($service['title'])
+            ->assertSeeText($experience['title'])
             ->assertJsonStructure([
                 'data' => [
                     'data'
@@ -43,20 +43,24 @@ class ExperienceTest extends TestCase
 
     public function testCreateNewExperience()
     {
-        $experience = Experience::factory()->make();
+        $experience = Experience::factory()->make(['stopped_at' => today()]);
+
+        $this->postJson(route('experiences.create'), $experience->toArray())
+            ->assertStatus(Response::HTTP_CREATED);
+
+        unset($experience['stopped_at']); // for testing present experience
+
         $this->postJson(route('experiences.create'), $experience->toArray())
             ->assertStatus(Response::HTTP_CREATED);
     }
 
     public function testUpdateExperience()
     {
-        $service = Experience::query()->first();
-        $this->patchJson(route('experience.update'), $service->toArray())
+        $experience = Experience::query()->first();
+        $this->patchJson(route('experiences.update', $experience['id']), $experience->toArray())
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
-                'data' => [
-                    'data'
-                ]
+                'data' => ['company', 'id', 'position']
             ]);
     }
 }
