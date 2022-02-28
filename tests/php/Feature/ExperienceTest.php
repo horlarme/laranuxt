@@ -56,7 +56,7 @@ class ExperienceTest extends TestCase
 
     public function testUpdateExperience()
     {
-        $experience = Experience::query()->first();
+        $experience = Experience::factory()->create();
         $this->patchJson(route('experiences.update', $experience['id']), $experience->toArray())
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
