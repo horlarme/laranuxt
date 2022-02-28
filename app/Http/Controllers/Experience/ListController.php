@@ -13,7 +13,7 @@ class ListController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         return $this->success(data: ExperienceResource::collection(
-            Experience::all()
+            Experience::latest('stopped_at')->get()
         ));
     }
 }
