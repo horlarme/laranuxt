@@ -46,4 +46,3 @@ Route::delete('skills/{skill}', \App\Http\Controllers\Skills\DeleteController::c
     ->name('skills.delete');
 Route::patch('skills/{skill}', \App\Http\Controllers\Skills\UpdateController::class)
     ->name('skills.update');
-
