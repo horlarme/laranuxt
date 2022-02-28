@@ -18,6 +18,8 @@ jobs:
           tools: composer
           extensions: sqlite
       - uses: actions/checkout@v2
+      - name: Installing Dependencies
+        run: composer i
       - name: Create Database
         run: |
           mkdir -p database
