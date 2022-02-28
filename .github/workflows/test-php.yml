@@ -25,5 +25,5 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-        run: ./vendor/bin/phpunit -c tests/php --stop-on-error
+        run: ./vendor/bin/phpunit -c tests/php/phpunit.xml --colors=always --testdox
 
