@@ -4,8 +4,8 @@
       <Header />
       <IntroductionSection :data="profile" @updated="updateProfileData" />
       <ServiceSection :data="profile.services" @updated="updateProfileData" />
-      <SkillSection />
-      <ExperienceSection />
+      <SkillSection :data="profile.skills" @updated="updateProfileData" />
+      <ExperienceSection :data="profile.experiences" @updated="updateProfileData" />
     </template>
     <div v-else class="grid place-items-center h-screen">
       <p class="text-3xl animate-bounce capitalize">Please wait... Profile fetching...</p>

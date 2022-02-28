@@ -4,7 +4,13 @@
       <h3 class="text-4xl mb-20">
         Experience
       </h3>
-      <Experience v-for="i in experience" :key="`Experience-${i}`" />
+      <Experience
+        v-for="(experience, index) in experiences"
+        :key="`Experience-${index}`"
+        :data="experience"
+        @updated="$emit('updated')"
+        @delete="drop(index)"
+      />
       <AddButton title="Add New Experience" @add="add" />
     </div>
   </section>
@@ -12,24 +18,40 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { PropType } from '@nuxtjs/composition-api'
 import AddButton from '@/components/AddButton.vue'
 import Experience from '@/components/Experience.vue'
+import { Experience as ExperienceType, Experiences } from '@/types/api'
 
 export default Vue.extend({
   name: 'ExperienceSection',
   components: { Experience, AddButton },
-  data () {
-    return {
-
-      experience: [0, 1],
-    }
-  },
-  methods: {
-    add () {
-      this.experience.push(this.experience.length)
+  props: {
+    data: {
+      type: Array as PropType<Experiences>,
+      required: false,
     },
   },
-
+  data () {
+    return {
+      experiences: [] as Experiences,
+    }
+  },
+  mounted () {
+    this.experiences = Array.from(this.data)
+  },
+  methods: {
+    drop (index: number) {
+      this.experiences = this.experiences.filter((_, i) => i !== index)
+    },
+    add () {
+      this.experiences.push({
+        company: 'The Company',
+        position: 'Your position',
+        description: 'What I did there',
+      } as ExperienceType)
+    },
+  },
 })
 </script>
 

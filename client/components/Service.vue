@@ -65,7 +65,7 @@ export default Vue.extend({
     },
     clear () {
       this.editing = false
-      this.form = {}
+      this.form = {} as Service
     },
     save () {
       this.loading = true

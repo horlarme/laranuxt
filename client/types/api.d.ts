@@ -21,6 +21,7 @@ export interface User {
   readonly id: number
   full_name: string
   email: string
+  bio: string
   social_linkedin: string | null
   social_github: string | null
   social_twitter: string | null

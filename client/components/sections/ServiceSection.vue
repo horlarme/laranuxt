@@ -20,7 +20,7 @@
 import Vue from 'vue'
 import { PropType } from '@nuxtjs/composition-api'
 import Service from '@/components/Service.vue'
-import { Services } from '@/types/api'
+import { Services, Service as ServiceType } from '@/types/api'
 
 export default Vue.extend({
   name: 'ServiceSection',
@@ -47,7 +47,7 @@ export default Vue.extend({
       this.services.push({
         description: 'Add service description',
         title: 'Add service title',
-      } as Service)
+      } as ServiceType)
     },
   },
 })

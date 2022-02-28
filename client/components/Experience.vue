@@ -1,58 +1,155 @@
 <template>
   <div class="w-full mb-10 first:border-t-0 border-t">
     <h3 v-if="!editing" class="text-3xl font-bold pt-10 pb-5">
-      Founder - Kykki (January 2021 - Present)
-      <Actions :editing="editing" deleteable @edit="edit" @clear="cancel" />
+      {{ data.position }} - {{ data.company }}
+      ({{ startedAt }} - {{ data.stopped_at ? stoppedAt : 'Present' }})
+      <Actions
+        :editing="editing"
+        deleteable
+        @delete="drop"
+        @edit="edit"
+        @save="save"
+        @clear="clear"
+      />
     </h3>
-    <div v-else class="flex items-center border-b bg-gray-100 mb-5 pt-5">
+    <template v-else>
+      <div class="flex items-center border-b bg-gray-100 mb-5 pt-5">
+        <input
+          ref="field"
+          v-model="form.company"
+          type="text"
+          class="text-3xl font-bold pt-5 pb-5 bg-transparent w-full outline-none"
+        >
+        <Actions
+          :editing="editing"
+          deleteable
+          @delete="drop"
+          @edit="edit"
+          @save="save"
+          @clear="clear"
+        />
+      </div>
       <input
-        ref="field"
+        v-model="form.position"
+        required
+        placeholder="Position"
         type="text"
         class="text-3xl font-bold pt-5 pb-5 bg-transparent w-full outline-none"
-        value="Founder - Kykki (January 2021 - Present)"
       >
-      <Actions :editing="editing" deleteable @edit="edit" @clear="cancel" />
-    </div>
+      <input
+        v-model="form.started_at"
+        placeholder="Started At"
+        required
+        type="date"
+        class="text-base font-bold pt-5 pb-5 bg-transparent w-full outline-none"
+      >
+      <fieldset>
+        <input v-model="present" type="checkbox">
+        <p>Present</p>
+      </fieldset>
+      <input
+        v-if="!present"
+        v-model="form.stopped_at"
+        placeholder="Stopped At (leave empty for present)"
+        type="date"
+        class="text-base font-bold pt-5 pb-5 bg-transparent w-full outline-none"
+      >
+    </template>
 
     <p v-if="!editing" class="text-base font-normal">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel felis ipsum. Ut id arcu viverra, rutrum nisi
-      a, fermentum tellus. Nam volutpat magna eget congue facilisis. Mauris vel interdum nisi, ut laoreet ligula.
-      Morbi gravida dignissim velit eu rutrum. Orci varius natoque penatibus et magnis dis parturient montes,
-      nascetur ridiculus mus. Sed porta id tortor ac accumsan. Praesent id leo commodo, sodales risus sit amet,
-      gravida nibh. Maecenas imperdiet lacus mauris, id congue massa feugiat ut. Aenean risus augue, efficitur ac
-      rutrum non, vulputate eget lectus. Morbi elementum quis sem non mollis. Vivamus aliquam augue id erat
-      hendrerit, non molestie ligula convallis. Nulla commodo eros bibendum lacus tincidunt finibus.
+      {{ data.description }}
     </p>
-    <textarea v-else class="border rounded bg-transparent w-full text-base outline-none text-lg resize-none" rows="5">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel felis ipsum. Ut id arcu viverra, rutrum nisi
-      a, fermentum tellus. Nam volutpat magna eget congue facilisis. Mauris vel interdum nisi, ut laoreet ligula.
-      Morbi gravida dignissim velit eu rutrum. Orci varius natoque penatibus et magnis dis parturient montes,
-      nascetur ridiculus mus. Sed porta id tortor ac accumsan. Praesent id leo commodo, sodales risus sit amet,
-      gravida nibh. Maecenas imperdiet lacus mauris, id congue massa feugiat ut. Aenean risus augue, efficitur ac
-      rutrum non, vulputate eget lectus. Morbi elementum quis sem non mollis. Vivamus aliquam augue id erat
-      hendrerit, non molestie ligula convallis. Nulla commodo eros bibendum lacus tincidunt finibus.
-    </textarea>
+    <textarea
+      v-else
+      v-model="form.description"
+      class="border rounded bg-transparent w-full text-base outline-none text-lg resize-none"
+      rows="5"
+    />
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { PropType } from '@nuxtjs/composition-api'
+import Vue from 'vue'
+import { Experience } from '@/types/api'
+
+export default Vue.extend({
   name: 'Experience',
+  props: {
+    data: {
+      type: Object as PropType<Experience>,
+      required: true,
+    },
+  },
   data () {
     return {
+      present: false,
       editing: false,
+      form: {} as Experience,
+      loading: false,
     }
+  },
+  computed: {
+    startedAt () {
+      const date = new Date(this.data.started_at)
+      return date.toDateString()
+    },
+    stoppedAt () {
+      const date = new Date(this.data.stopped_at)
+      return date.toDateString()
+    },
+  },
+  mounted () {
+    if (!this.data.id)
+      this.edit()
   },
   methods: {
     edit () {
       this.editing = true
-      this.$nextTick(() => this.$refs.field.focus())
+      this.form = Object.assign({}, this.data)
     },
-    cancel () {
+    clear () {
       this.editing = false
+      this.form = {}
+    },
+    save () {
+      this.loading = true
+      let requestMethod = this.$axios.$post
+      let url = 'experiences'
+      if (this.data.id) {
+        requestMethod = this.$axios.$patch
+        url = `experiences/${this.data.id}`
+      }
+
+      requestMethod(url, {
+        ...this.form,
+        stopped_at: this.present ? null : this.form.stopped_at,
+      })
+        .then(() => {
+          if (this.data.id)
+            this.$toast.success(`${this.form.company} created successfully`)
+          else
+            this.$toast.success(`${this.form.company} updated successfully`)
+
+          this.$emit('updated')
+          this.clear()
+        })
+        .finally(() => (this.loading = false))
+    },
+    drop () {
+      if (this.data.id) {
+        this.loading = true
+        this.$axios.$delete(`experiences/${this.data.id}`)
+          .then(() => {
+            this.$toast.success(`${this.form.company} deleted successfully`)
+            this.$emit('updated')
+          })
+          .finally(() => (this.loading = false))
+      } else
+        this.$emit('delete')
     },
   },
-}
+})
 </script>
 
 <style scoped>

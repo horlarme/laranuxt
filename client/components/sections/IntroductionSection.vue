@@ -82,8 +82,8 @@
 import Vue from 'vue'
 import { AxiosResponse } from 'axios'
 import { PropType } from '@nuxtjs/composition-api'
-import SocialSection from '@/components/sections/SocialSection'
-import Actions from '@/components/Actions'
+import SocialSection from '@/components/sections/SocialSection.vue'
+import Actions from '@/components/Actions.vue'
 import { MetApiResponse, User } from '@/types/api'
 
 export default Vue.extend({
@@ -109,7 +109,7 @@ export default Vue.extend({
     },
     clear () {
       this.editing = false
-      this.form = {}
+      this.form = {} as User
     },
     update () {
       this.loading = true
