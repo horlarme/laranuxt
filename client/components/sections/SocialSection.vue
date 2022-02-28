@@ -8,15 +8,25 @@
       <ion-icon name="logo-twitter" class="w-6 h-6 filter grayscale rounded" />
     </div>
     <a href="mailto:lawaloladipupo@outlook.com" class="text-black no-underline text-sm">
-      lawaloladipupo@outlook.com
+      {{ profile.email }}
     </a>
   </section>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+import { PropType } from '@nuxtjs/composition-api'
+import { User } from '@/types/api'
+
+export default Vue.extend({
   name: 'SocialSection',
-}
+  props: {
+    profile: {
+      type: Object as PropType<User>,
+      required: true,
+    },
+  },
+})
 </script>
 
 <style scoped>

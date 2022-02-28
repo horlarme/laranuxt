@@ -6,7 +6,7 @@
     <button v-if="editing" class="p-2" @click="$emit('clear')">
       <ion-icon name="close-outline" class="text-base text-red-400" />
     </button>
-    <button v-if="editing" class="p-2">
+    <button v-if="editing" class="p-2" @click="$emit('save')">
       <ion-icon name="checkmark-outline" class="text-base text-green-400" />
     </button>
     <EditButton v-if="!editing" @click="$emit('edit')" />
