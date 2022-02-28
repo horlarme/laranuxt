@@ -29,7 +29,5 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: ./vendor/bin/phpunit -c tests/php/phpunit.xml --colors=always --testdox
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
+
 
